@@ -9,7 +9,7 @@ class BaseResource
 
     public function __construct($resource)
     {
-        $this->resource = $resource;
+        $this->resource = (object) $resource;
     }
 
     public function toJson()
