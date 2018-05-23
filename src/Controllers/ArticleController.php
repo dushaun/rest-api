@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 
+use App\Models\Article;
 use Interop\Container\ContainerInterface;
 
 class ArticleController
@@ -16,7 +17,11 @@ class ArticleController
 
     public function get($request, $response, $args)
     {
-        die($args['id']);
+        $article = Article::findOrFail($args['id']);
+        $body = $response->getBody();
+        $body->write(json_encode($article));
+
+        return $response->withBody($body);
     }
 
     public function post($request, $response, $args)
