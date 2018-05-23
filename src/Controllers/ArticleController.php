@@ -72,6 +72,16 @@ class ArticleController extends Controller
 
     public function delete($request, $response, $args)
     {
-        die($args['id']);
+        try {
+            $article = Article::findOrFail($args['id']);
+        } catch (ModelNotFoundException $exception) {
+            return $this->response($response, (new ErrorResource([
+                'message' => 'Article cannot be found'
+            ]))->toJson(), 404);
+        }
+
+        $article->delete();
+
+        return $this->response($response, null, 204);
     }
 }
