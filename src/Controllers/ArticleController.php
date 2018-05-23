@@ -19,10 +19,12 @@ class ArticleController extends Controller
 
     public function get($request, $response, $args)
     {
-        $article = Article::findOrFail($args['id']);
-
-        if (!$article) {
-            return $this->response($response, null, 404);
+        try {
+            $article = Article::findOrFail($args['id']);
+        } catch (ModelNotFoundException $exception) {
+            return $this->response($response, (new ErrorResource([
+                'message' => 'Article cannot be found'
+            ]))->toJson(), 404);
         }
 
         return $this->response($response, (new ArticleResource($article))->toJson());
@@ -42,12 +44,6 @@ class ArticleController extends Controller
             'title' => $payload['title'],
             'body' => $payload['body']
         ]);
-
-        if (!$article) {
-            return $this->response($response, (new ErrorResource([
-                'message' => 'Article cannot be found'
-            ]))->toJson(), 404);
-        }
 
         return $this->response($response, (new ArticleResource($article))->toJson());
     }
