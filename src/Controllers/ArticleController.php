@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Article;
 use App\Resources\ArticleResource;
 use App\Resources\ErrorResource;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Interop\Container\ContainerInterface;
 
 class ArticleController extends Controller
@@ -53,7 +54,20 @@ class ArticleController extends Controller
 
     public function put($request, $response, $args)
     {
-        die($args['id']);
+        $payload = $request->getParsedBody();
+
+        try {
+            $article = Article::findOrFail($args['id']);
+        } catch (ModelNotFoundException $exception) {
+            return $this->response($response, (new ErrorResource([
+                'message' => 'Article cannot be found'
+            ]))->toJson(), 404);
+        }
+
+        $article->fill($payload);
+        $article->save();
+
+        return $this->response($response, (new ArticleResource($article))->toJson());
     }
 
     public function delete($request, $response, $args)
