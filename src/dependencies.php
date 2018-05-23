@@ -28,3 +28,6 @@ $capsule->bootEloquent();
 $container['db'] = function ($container) use ($capsule) {
     return $capsule;
 };
+
+// middleware
+$app->add(new \App\Middleware\JsonResponseMiddleware());
