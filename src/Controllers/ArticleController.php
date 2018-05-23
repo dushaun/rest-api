@@ -2,11 +2,11 @@
 
 namespace App\Controllers;
 
-
 use App\Models\Article;
+use App\Resources\ArticleResource;
 use Interop\Container\ContainerInterface;
 
-class ArticleController
+class ArticleController extends Controller
 {
     private $container;
 
@@ -18,10 +18,8 @@ class ArticleController
     public function get($request, $response, $args)
     {
         $article = Article::findOrFail($args['id']);
-        $body = $response->getBody();
-        $body->write(json_encode($article));
 
-        return $response->withBody($body);
+        return $this->response($response, (new ArticleResource($article))->toJson());
     }
 
     public function post($request, $response, $args)
