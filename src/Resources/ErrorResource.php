@@ -11,6 +11,11 @@ namespace App\Resources;
 
 class ErrorResource extends BaseResource
 {
+    /**
+     * Format error data to specified array
+     *
+     * @return array
+     */
     public function format()
     {
         return [

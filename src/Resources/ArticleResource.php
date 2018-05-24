@@ -5,6 +5,11 @@ namespace App\Resources;
 
 class ArticleResource extends BaseResource
 {
+    /**
+     * Format resource data to specified array
+     *
+     * @return array
+     */
     public function format()
     {
         return [

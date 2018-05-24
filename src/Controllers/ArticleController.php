@@ -12,11 +12,23 @@ class ArticleController extends Controller
 {
     private $container;
 
+    /**
+     * ArticleController constructor.
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
+    /**
+     * Get queried article
+     *
+     * @param $request
+     * @param $response
+     * @param $args
+     * @return mixed
+     */
     public function get($request, $response, $args)
     {
         try {
@@ -30,6 +42,13 @@ class ArticleController extends Controller
         return $this->response($response, (new ArticleResource($article))->toJson());
     }
 
+    /**
+     * Create an article
+     *
+     * @param $request
+     * @param $response
+     * @return mixed
+     */
     public function post($request, $response)
     {
         $payload = $request->getParsedBody();
@@ -48,6 +67,14 @@ class ArticleController extends Controller
         return $this->response($response, (new ArticleResource($article))->toJson());
     }
 
+    /**
+     * Update selected article
+     *
+     * @param $request
+     * @param $response
+     * @param $args
+     * @return mixed
+     */
     public function put($request, $response, $args)
     {
         $payload = $request->getParsedBody();
@@ -66,6 +93,14 @@ class ArticleController extends Controller
         return $this->response($response, (new ArticleResource($article))->toJson());
     }
 
+    /**
+     * Delete selected article
+     *
+     * @param $request
+     * @param $response
+     * @param $args
+     * @return mixed
+     */
     public function delete($request, $response, $args)
     {
         try {
